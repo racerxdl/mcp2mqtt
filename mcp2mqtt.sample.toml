@@ -1,0 +1,519 @@
+[MQTT]
+    MQTTServer = "127.0.0.1"
+    MQTTUsername = "mqtt_user"
+    MQTTPassword = "mqtt_pass"
+
+[IO]
+    BusNumber = 1
+
+    [[IO.IODevices]]
+        Number = 0
+        Topic = "SAIDA0"
+        StatusTopic = "STATUS_SAIDA0"
+        # The relay board has this order:
+
+        #   7X   X8
+        #  15X   X0
+        #   6X   X9
+        #  14X   X1
+        #   5X   X10
+        #  13X   X2
+        #   4X   X11
+        #  12X   X3
+
+        # Device I/O Map
+
+        ## Device 0
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 7
+            TopicNumber = 1
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 15
+            TopicNumber = 2
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 6
+            TopicNumber = 3
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 14
+            TopicNumber = 4
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 5
+            TopicNumber = 5
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 13
+            TopicNumber = 6
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 4
+            TopicNumber = 7
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 12
+            TopicNumber = 8
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 8
+            TopicNumber = 9
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 0
+            TopicNumber = 10
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 9
+            TopicNumber = 11
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 1
+            TopicNumber = 12
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 10
+            TopicNumber = 13
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 2
+            TopicNumber = 14
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 11
+            TopicNumber = 15
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 0
+            PinNumber = 3
+            TopicNumber = 16
+            IsOutput = true
+
+        ## Device 1
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 7
+            TopicNumber = 17
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 15
+            TopicNumber = 18
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 6
+            TopicNumber = 19
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 14
+            TopicNumber = 20
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 5
+            TopicNumber = 21
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 13
+            TopicNumber = 22
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 4
+            TopicNumber = 23
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 12
+            TopicNumber = 24
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 8
+            TopicNumber = 25
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 0
+            TopicNumber = 26
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 9
+            TopicNumber = 27
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 1
+            TopicNumber = 28
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 10
+            TopicNumber = 29
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 2
+            TopicNumber = 30
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 11
+            TopicNumber = 31
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 1
+            PinNumber = 3
+            TopicNumber = 32
+            IsOutput = true
+
+        ## Device 2
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 7
+            TopicNumber = 33
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 15
+            TopicNumber = 34
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 6
+            TopicNumber = 35
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 14
+            TopicNumber = 36
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 5
+            TopicNumber = 37
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 13
+            TopicNumber = 38
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 4
+            TopicNumber = 39
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 12
+            TopicNumber = 40
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 8
+            TopicNumber = 41
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 0
+            TopicNumber = 42
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 9
+            TopicNumber = 43
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 1
+            TopicNumber = 44
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 10
+            TopicNumber = 45
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 2
+            TopicNumber = 46
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 11
+            TopicNumber = 47
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 2
+            PinNumber = 3
+            TopicNumber = 48
+            IsOutput = true
+
+        ## Device 3
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 7
+            TopicNumber = 49
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 15
+            TopicNumber = 50
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 6
+            TopicNumber = 51
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 14
+            TopicNumber = 52
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 5
+            TopicNumber = 53
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 13
+            TopicNumber = 54
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 4
+            TopicNumber = 55
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 12
+            TopicNumber = 56
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 8
+            TopicNumber = 57
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 0
+            TopicNumber = 58
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 9
+            TopicNumber = 59
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 1
+            TopicNumber = 60
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 10
+            TopicNumber = 61
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 2
+            TopicNumber = 62
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 11
+            TopicNumber = 63
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 3
+            PinNumber = 3
+            TopicNumber = 64
+            IsOutput = true
+
+        ## Device 4
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 7
+            TopicNumber = 65
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 15
+            TopicNumber = 66
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 6
+            TopicNumber = 67
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 14
+            TopicNumber = 68
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 5
+            TopicNumber = 69
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 13
+            TopicNumber = 70
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 4
+            TopicNumber = 71
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 12
+            TopicNumber = 72
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 8
+            TopicNumber = 73
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 0
+            TopicNumber = 74
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 9
+            TopicNumber = 75
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 1
+            TopicNumber = 76
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 10
+            TopicNumber = 77
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 2
+            TopicNumber = 78
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 11
+            TopicNumber = 79
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 4
+            PinNumber = 3
+            TopicNumber = 80
+            IsOutput = true
+
+        ## Device 5
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 7
+            TopicNumber = 81
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 15
+            TopicNumber = 82
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 6
+            TopicNumber = 83
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 14
+            TopicNumber = 84
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 5
+            TopicNumber = 85
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 13
+            TopicNumber = 86
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 4
+            TopicNumber = 87
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 12
+            TopicNumber = 88
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 8
+            TopicNumber = 89
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 0
+            TopicNumber = 90
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 9
+            TopicNumber = 91
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 1
+            TopicNumber = 92
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 10
+            TopicNumber = 93
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 2
+            TopicNumber = 94
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 11
+            TopicNumber = 95
+            IsOutput = true
+        [[IO.IODevices.IOMap]]
+            DeviceNumber = 5
+            PinNumber = 3
+            TopicNumber = 96
+            IsOutput = true
+
+
+
