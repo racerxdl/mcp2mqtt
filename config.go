@@ -37,6 +37,7 @@ func (ic IOConfig) String() string {
 }
 
 type IODevice struct {
+	Number      int
 	Topic       string
 	StatusTopic string
 	IOMap       []IOMap

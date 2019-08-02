@@ -136,6 +136,7 @@ func (io *IOManager) recoverDevice(devNum int) {
 		if v.IsOutput {
 			d.PinMode(uint8(v.PinNumber), mcp23017.OUTPUT)
 			io.q.Subscribe(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber))
+			d.DigitalWrite(uint8(v.PinNumber), mcp23017.LOW)
 		} else {
 			d.PinMode(uint8(v.PinNumber), mcp23017.INPUT)
 		}
@@ -154,7 +155,7 @@ func (io *IOManager) MessageHandle(msg mqtt.Message) {
 	found := false
 
 	level := mcp23017.LOW
-	if value == "1" {
+	if value == "1" || value == "true" {
 		level = mcp23017.HIGH
 	}
 
@@ -207,9 +208,12 @@ func (io *IOManager) initializeDevices() error {
 	io.lastIO = make([]uint16, len(io.c.IODevices))
 
 	for i := 0; i < len(io.c.IODevices); i++ {
-		io.devs[i], err = mcp23017.Open(uint8(io.c.BusNumber), uint8(i))
+		l := io.c.IODevices[i]
+		log.Info("Initializing device %d in bus %d", l.Number, io.c.BusNumber)
+		io.devs[i], err = mcp23017.Open(uint8(io.c.BusNumber), uint8(l.Number))
 		if err != nil {
-			return fmt.Errorf("cannot open device %d in bus %d", i, io.c.BusNumber)
+			log.Error("Error initializing device %d in bus %d: %s", l.Number, io.c.BusNumber, err)
+			return fmt.Errorf("cannot open device %d in bus %d: %s", l.Number, io.c.BusNumber, err)
 		}
 		io.lastStatus[i] = true
 		io.notifyStatus(i, true)

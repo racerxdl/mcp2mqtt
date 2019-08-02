@@ -129,6 +129,7 @@ func (q *QueueManager) onPublish(client mqtt.Client, message mqtt.Message) {
 
 func (q *QueueManager) Publish(topic string, payload interface{}) error {
 	q.l.Lock()
+	defer q.l.Unlock()
 	t := q.client.Publish(topic, 0, false, payload)
 
 	if !t.WaitTimeout(time.Second * 2) {
