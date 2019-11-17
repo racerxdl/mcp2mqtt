@@ -19,6 +19,7 @@ type QueueManager struct {
 	l                   sync.Mutex
 	lastConnectionState bool
 	onMessage           OnMessage
+	closeQueue          string
 }
 
 func MakeQueueManager(config MQTTConfig) (*QueueManager, error) {
@@ -42,6 +43,12 @@ func MakeQueueManager(config MQTTConfig) (*QueueManager, error) {
 	q.client = c
 	q.running = true
 	go q.checkLoop()
+
+	if config.CloseQueue != "" {
+		q.closeQueue = config.CloseQueue
+		qlog.Info("Enabling close queue at topic: %s", config.CloseQueue)
+		q.Subscribe(config.CloseQueue)
+	}
 
 	return q, nil
 }
@@ -119,9 +126,17 @@ func (q *QueueManager) onConnect(client mqtt.Client) {
 			qlog.Error("Error subscribing to %s: %s", v, err)
 		}
 	}
+	if q.closeQueue != "" {
+		qlog.Info("Enabling close queue at topic: %s", q.closeQueue)
+		q.Subscribe(q.closeQueue)
+	}
 }
 
 func (q *QueueManager) onPublish(client mqtt.Client, message mqtt.Message) {
+	if q.closeQueue != "" && message.Topic() == q.closeQueue {
+		panic("Received CLOSE QUEUE")
+		return
+	}
 	if q.onMessage != nil {
 		q.onMessage(message)
 	}

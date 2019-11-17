@@ -13,6 +13,7 @@ type MQTTConfig struct {
 	MQTTServer   string
 	MQTTUsername string
 	MQTTPassword string
+	CloseQueue   string
 }
 
 type IOMap struct {
@@ -20,6 +21,7 @@ type IOMap struct {
 	PinNumber    int
 	TopicNumber  int
 	IsOutput     bool
+	SetPullUp    bool
 }
 
 type IOConfig struct {
@@ -43,6 +45,26 @@ type IODevice struct {
 	IOMap       []IOMap
 }
 
+func (id IODevice) hasInput() bool {
+	for _, v := range id.IOMap {
+		if !v.IsOutput {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (id IODevice) isPinInput(pin int) bool {
+	for _, v := range id.IOMap {
+		if v.PinNumber == pin && !v.IsOutput {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (id IODevice) isPinExplicitMapped(pin int) bool {
 	for _, v := range id.IOMap {
 		if v.PinNumber == pin {
@@ -64,6 +86,7 @@ func (id IODevice) String() string {
 		v += fmt.Sprintf("       Pin Number: %d\n", m.PinNumber)
 		v += fmt.Sprintf("       Topic Number: %d\n", m.TopicNumber)
 		v += fmt.Sprintf("       Is Output: %v\n", m.IsOutput)
+		v += fmt.Sprintf("       Pull Up: %v\n", m.SetPullUp)
 	}
 
 	return v

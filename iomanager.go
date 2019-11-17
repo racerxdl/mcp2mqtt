@@ -74,13 +74,21 @@ func (io *IOManager) healthCheckLoop() {
 		}
 		// endregion
 		io.l.Unlock()
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(time.Millisecond * 5)
 	}
 }
 
 func (io *IOManager) pool() {
 	for devNum := range io.c.IODevices {
 		d := io.devs[devNum]
+		c := io.c.IODevices[devNum]
+
+		if !c.hasInput() {
+			iolog.Warn("No inputs on device %d", devNum)
+			// No Inputs for pooling
+			continue
+		}
+
 		u, err := d.ReadGPIOAB()
 		if err != nil {
 			// Ignore error here, health check will catch it.
@@ -106,7 +114,8 @@ func (io *IOManager) pool() {
 func (io *IOManager) notifyIOChange(devNum, pinNum, status int) {
 	c := io.c.IODevices[devNum]
 	for _, v := range c.IOMap {
-		if v.PinNumber == pinNum && v.IsOutput {
+		if v.PinNumber == pinNum && !v.IsOutput {
+			iolog.Info("Pin %d from %d changed status to %d notifying to %s/%d", pinNum, devNum, status, c.Topic, v.TopicNumber)
 			io.q.Publish(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber), status)
 		}
 	}
@@ -139,6 +148,7 @@ func (io *IOManager) recoverDevice(devNum int) {
 			d.DigitalWrite(uint8(v.PinNumber), mcp23017.LOW)
 		} else {
 			d.PinMode(uint8(v.PinNumber), mcp23017.INPUT)
+			d.SetPullUp(uint8(v.PinNumber), v.SetPullUp)
 		}
 	}
 }
@@ -166,10 +176,14 @@ func (io *IOManager) MessageHandle(msg mqtt.Message) {
 		if t[0] == v.Topic {
 			for _, pin := range v.IOMap {
 				if t[1] == strconv.FormatInt(int64(pin.TopicNumber), 10) {
-					log.Info("(%s) Changing I/O %d from dev %d to %v", topic, pin.PinNumber, devNum, level)
-					err := io.devs[devNum].DigitalWrite(uint8(pin.PinNumber), level)
-					if err != nil {
-						iolog.Error("(%s) Error setting GPIO %d from %d to %v: %s", topic, pin.PinNumber, devNum, level, err)
+					if pin.IsOutput {
+						log.Info("(%s) Changing I/O %d from dev %d to %v", topic, pin.PinNumber, devNum, level)
+						err := io.devs[devNum].DigitalWrite(uint8(pin.PinNumber), level)
+						if err != nil {
+							iolog.Error("(%s) Error setting GPIO %d from %d to %v: %s", topic, pin.PinNumber, devNum, level, err)
+						}
+					} else {
+						log.Warn("(%s) Received I/O change %d from dev %d to %v. But pin is input!", topic, pin.PinNumber, devNum, level)
 					}
 					found = true
 				}
