@@ -22,6 +22,7 @@ type IOMap struct {
 	TopicNumber  int
 	IsOutput     bool
 	SetPullUp    bool
+	Inverted     bool
 }
 
 type IOConfig struct {
@@ -87,6 +88,7 @@ func (id IODevice) String() string {
 		v += fmt.Sprintf("       Topic Number: %d\n", m.TopicNumber)
 		v += fmt.Sprintf("       Is Output: %v\n", m.IsOutput)
 		v += fmt.Sprintf("       Pull Up: %v\n", m.SetPullUp)
+		v += fmt.Sprintf("       Inverted: %v\n", m.Inverted)
 	}
 
 	return v

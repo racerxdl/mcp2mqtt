@@ -104,7 +104,7 @@ func (io *IOManager) pool() {
 			lastStatus := (io.lastIO[devNum] & (1 << b)) >> b
 			currentStatus := (u & (1 << b)) >> b
 			if lastStatus != currentStatus {
-				go io.notifyIOChange(devNum, int(b), int(lastStatus))
+				go io.notifyIOChange(devNum, int(b), int(currentStatus))
 			}
 		}
 		io.lastIO[devNum] = u
@@ -115,8 +115,18 @@ func (io *IOManager) notifyIOChange(devNum, pinNum, status int) {
 	c := io.c.IODevices[devNum]
 	for _, v := range c.IOMap {
 		if v.PinNumber == pinNum && !v.IsOutput {
+			if v.Inverted {
+				if status == 0 {
+					status = 1
+				} else {
+					status = 0
+				}
+			}
 			iolog.Info("Pin %d from %d changed status to %d notifying to %s/%d", pinNum, devNum, status, c.Topic, v.TopicNumber)
-			io.q.Publish(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber), status)
+			err := io.q.Publish(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber), fmt.Sprintf("%d", status))
+			if err != nil {
+				iolog.Error("Error publishing to %s/%d: %s", c.Topic, v.TopicNumber, err)
+			}
 		}
 	}
 }
@@ -177,6 +187,13 @@ func (io *IOManager) MessageHandle(msg mqtt.Message) {
 			for _, pin := range v.IOMap {
 				if t[1] == strconv.FormatInt(int64(pin.TopicNumber), 10) {
 					if pin.IsOutput {
+						if pin.Inverted {
+							if level == mcp23017.LOW {
+								level = mcp23017.HIGH
+							} else {
+								level = mcp23017.LOW
+							}
+						}
 						log.Info("(%s) Changing I/O %d from dev %d to %v", topic, pin.PinNumber, devNum, level)
 						err := io.devs[devNum].DigitalWrite(uint8(pin.PinNumber), level)
 						if err != nil {
