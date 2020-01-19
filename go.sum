@@ -13,6 +13,8 @@ github.com/racerxdl/go-mcp23017 v0.0.0-20190727211506-97e0f1112c0c h1:kjLj9I+XOb
 github.com/racerxdl/go-mcp23017 v0.0.0-20190727211506-97e0f1112c0c/go.mod h1:WTTjes6ESVjAnr8i2z3DKCfD362qnrnjRwqjeDPqvK8=
 github.com/racerxdl/go-mcp23017 v0.0.0-20200119020958-cf008b97d874 h1:hjcdF/g43o34XZ6zZrMQ+gU0yE5HGtpPg3WMhbfT+9U=
 github.com/racerxdl/go-mcp23017 v0.0.0-20200119020958-cf008b97d874/go.mod h1:WTTjes6ESVjAnr8i2z3DKCfD362qnrnjRwqjeDPqvK8=
+github.com/racerxdl/go-mcp23017 v0.0.0-20200119181255-c8f9b9777b0e h1:uyn3ceKUdtZvyyHH+XqqmVh8CHn3ycGW+SFoDD1fXnM=
+github.com/racerxdl/go-mcp23017 v0.0.0-20200119181255-c8f9b9777b0e/go.mod h1:WTTjes6ESVjAnr8i2z3DKCfD362qnrnjRwqjeDPqvK8=
 golang.org/x/image v0.0.0-20190220214146-31aff87c08e9/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
 golang.org/x/net v0.0.0-20190213061140-3a22650c66bd h1:HuTn7WObtcDo9uEEU7rEqL0jYthdXAmZ6PP+meazmaU=
 golang.org/x/net v0.0.0-20190213061140-3a22650c66bd/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
