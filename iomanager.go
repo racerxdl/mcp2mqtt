@@ -25,12 +25,14 @@ type IOManager struct {
 	lastIO     []uint16
 	running    bool
 	l          sync.Mutex
+	pinStates  map[int]mcp23017.PinLevel
 }
 
 func MakeIOManager(config IOConfig, q *QueueManager) (*IOManager, error) {
 	io := &IOManager{
-		q: q,
-		c: config,
+		q:         q,
+		c:         config,
+		pinStates: make(map[int]mcp23017.PinLevel),
 	}
 
 	err := io.initializeDevices()
@@ -217,11 +219,20 @@ func (io *IOManager) MessageHandle(msg mqtt.Message) {
 								level = mcp23017.LOW
 							}
 						}
+
+						if v, ok := io.pinStates[pin.TopicNumber]; ok && v == level {
+							// Same level, don't propagate to I2C
+							log.Debug("(%s) I/O %d from dev %d haven't changed. Ignoring", topic, pin.PinNumber, devNum, level)
+							found = true
+							break
+						}
+
 						log.Info("(%s) Changing I/O %d from dev %d to %v", topic, pin.PinNumber, devNum, level)
 						err := io.devs[devNum].DigitalWrite(uint8(pin.PinNumber), level)
 						if err != nil {
 							iolog.Error("(%s) Error setting GPIO %d from %d to %v: %s", topic, pin.PinNumber, devNum, level, err)
 						}
+						io.pinStates[pin.TopicNumber] = level
 					} else {
 						log.Warn("(%s) Received I/O change %d from dev %d to %v. But pin is input!", topic, pin.PinNumber, devNum, level)
 					}
