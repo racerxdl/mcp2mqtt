@@ -7,5 +7,5 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.2.0
 	github.com/mewkiz/pkg v0.0.0-20190317153131-e8616647c365
 	github.com/quan-to/slog v0.0.0-20190414172229-8bce0937f2c1
-	github.com/racerxdl/go-mcp23017 v0.0.0-20190727211506-97e0f1112c0c
+	github.com/racerxdl/go-mcp23017 v0.0.0-20200119020958-cf008b97d874
 )

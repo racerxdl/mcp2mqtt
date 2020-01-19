@@ -47,7 +47,7 @@ func MakeQueueManager(config MQTTConfig) (*QueueManager, error) {
 	if config.CloseQueue != "" {
 		q.closeQueue = config.CloseQueue
 		qlog.Info("Enabling close queue at topic: %s", config.CloseQueue)
-		q.Subscribe(config.CloseQueue)
+		_ = q.Subscribe(config.CloseQueue)
 	}
 
 	return q, nil
@@ -128,7 +128,7 @@ func (q *QueueManager) onConnect(client mqtt.Client) {
 	}
 	if q.closeQueue != "" {
 		qlog.Info("Enabling close queue at topic: %s", q.closeQueue)
-		q.Subscribe(q.closeQueue)
+		_ = q.Subscribe(q.closeQueue)
 	}
 }
 

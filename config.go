@@ -7,6 +7,7 @@ import (
 	"github.com/quan-to/slog"
 	"os"
 	"strings"
+	"time"
 )
 
 type MQTTConfig struct {
@@ -23,6 +24,12 @@ type IOMap struct {
 	IsOutput     bool
 	SetPullUp    bool
 	Inverted     bool
+}
+
+type Server struct {
+	DebugMode    bool
+	DefaultPortA uint8
+	DefaultPortB uint8
 }
 
 type IOConfig struct {
@@ -44,6 +51,7 @@ type IODevice struct {
 	Topic       string
 	StatusTopic string
 	IOMap       []IOMap
+	lastRewrite time.Time
 }
 
 func (id IODevice) hasInput() bool {
@@ -95,8 +103,9 @@ func (id IODevice) String() string {
 }
 
 type Config struct {
-	MQTT MQTTConfig
-	IO   IOConfig
+	MQTT   MQTTConfig
+	IO     IOConfig
+	Server Server
 }
 
 const configFile = "mcp2mqtt.toml"

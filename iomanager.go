@@ -13,6 +13,7 @@ import (
 
 const healthCheckPeriod = time.Second * 5
 const poolingCheckPeriod = time.Second / 60
+const rewriteCheckPeriod = time.Second * 5
 
 var iolog = slog.Scope("IO")
 
@@ -41,6 +42,11 @@ func MakeIOManager(config IOConfig, q *QueueManager) (*IOManager, error) {
 	io.running = true
 	go io.healthCheckLoop()
 
+	for i, v := range io.c.IODevices {
+		v.lastRewrite = time.Now()
+		io.c.IODevices[i] = v
+	}
+
 	q.SetOnMessage(io.MessageHandle)
 
 	return io, nil
@@ -49,6 +55,7 @@ func MakeIOManager(config IOConfig, q *QueueManager) (*IOManager, error) {
 func (io *IOManager) healthCheckLoop() {
 	lastHealthCheck := time.Now()
 	lastPoolCheck := time.Now()
+	iolog.Info("Health Check Loop running")
 	for io.running {
 		io.l.Lock()
 		// region Check Device Status
@@ -83,8 +90,19 @@ func (io *IOManager) pool() {
 		d := io.devs[devNum]
 		c := io.c.IODevices[devNum]
 
+		if time.Since(c.lastRewrite) > rewriteCheckPeriod {
+			iolog.Debug("Rewriting registers")
+			err := d.Rewrite()
+
+			if err != nil {
+				iolog.Warn("Error rewriting registers")
+				continue
+			}
+			c.lastRewrite = time.Now()
+			io.c.IODevices[devNum] = c
+		}
+
 		if !c.hasInput() {
-			iolog.Warn("No inputs on device %d", devNum)
 			// No Inputs for pooling
 			continue
 		}
@@ -151,14 +169,19 @@ func (io *IOManager) recoverDevice(devNum int) {
 	iolog.Debug("Recovering device %d", devNum)
 	c := io.c.IODevices[devNum]
 	d := io.devs[devNum]
+	err := d.Rewrite()
+	if err != nil {
+		iolog.Warn("Error rewriting cached registers: %s", err)
+	}
+
 	for _, v := range c.IOMap {
 		if v.IsOutput {
-			d.PinMode(uint8(v.PinNumber), mcp23017.OUTPUT)
-			io.q.Subscribe(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber))
-			d.DigitalWrite(uint8(v.PinNumber), mcp23017.LOW)
+			_ = d.PinMode(uint8(v.PinNumber), mcp23017.OUTPUT)
+			_ = io.q.Subscribe(fmt.Sprintf("%s/%d", c.Topic, v.TopicNumber))
+			_ = d.DigitalWrite(uint8(v.PinNumber), mcp23017.LOW)
 		} else {
-			d.PinMode(uint8(v.PinNumber), mcp23017.INPUT)
-			d.SetPullUp(uint8(v.PinNumber), v.SetPullUp)
+			_ = d.PinMode(uint8(v.PinNumber), mcp23017.INPUT)
+			_ = d.SetPullUp(uint8(v.PinNumber), v.SetPullUp)
 		}
 	}
 }
@@ -219,7 +242,7 @@ func (io *IOManager) getStatusTopic(devNum int) string {
 func (io *IOManager) Close() {
 	io.running = false
 	for _, v := range io.devs {
-		v.Close()
+		_ = v.Close()
 	}
 	io.devs = make([]*mcp23017.Device, 0)
 }

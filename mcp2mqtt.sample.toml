@@ -3,6 +3,11 @@
     MQTTUsername = "mqtt_user"
     MQTTPassword = "mqtt_pass"
 
+[Server]
+    DebugMode = false
+    DefaultPortA = 255
+    DefaultPortB = 255
+
 [IO]
     BusNumber = 1
 
